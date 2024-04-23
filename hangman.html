@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Hangman</title>
+
+    <style>
+        body {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            border-style: double;
+            border-color:#030303;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        input[type='text'] {
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #047526;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #09b25e;
+        }
+
+        #title{
+            color:#047526;
+        }
+
+        #wrong_guesses{
+            color:#b71919
+        }
+
+        #messages{
+            color:#0971b2
+        }
+
+        #over{
+            color:#dd1818
+        }
+
+        #restart{
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #0675a5;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #restart:hover {
+            background-color: #2c9acd;
+        }
+    </style>
+</head>
+
+<body>
+    <div class='container'>
+        <h1 id="title">Let's play Hangman</h1>
+        <h5>You have 6 tries to guess the word. Good luck!</h5>
+        <h2 id='dash'></h2>
+        <h1 id="over"></h1>
+        <h3 id="word"></h3>
+        <h4 id="wrong_guesses"></h4>
+
+        <br>
+        <h4 id="messages"></h4>
+        <input type='text' id='letter' maxlength='1' placeholder='Guess a letter'>
+        <button type="button" id="guess" onclick="guess()">Guess</button>
+        
+        <br><br>
+        &emsp;&emsp;&emsp;<button id="restart" onclick="window.location.href='javascript:window.location.reload()'">Restart</button>
+        <br>
+        <img id='hngman' src="images/hngman1.jpg" style="width:500px">
+
+    </div>
+
+    <script>
+        let tries = 0;
+        let wrong_guesses = "";
+        let used_letters = "";
+        
+        const words = [
+            "javascript", "hangman", "developer", "coding", "programming",
+            "algorithm", "variable", "function", "array", "object", "boolean",
+            "integer", "string", "conditional", "debugging", "iteration",
+            "syntax", "framework", "library", "asynchronous", "callback",
+            "parameter", "argument", "interface", "module", "package",
+            "repository", "version"
+        ];
+
+        var word = words[Math.floor(Math.random() * words.length)];
+        let dash = '_ '.repeat(word.length);
+        document.getElementById('dash').innerHTML = dash;
+
+        function guess() {
+            var img = document.getElementById('hngman');
+            let letter = document.getElementById('letter').value;
+            
+            if (used_letters.indexOf(letter)!==-1){
+                document.getElementById('messages').innerHTML = "'"+letter+"'"+" has already been guessed. Try a different letter.";
+                return
+            }
+            
+            used_letters+=letter;
+
+            var index = -1;
+            var dash_list = dash.split(' ');
+
+            for (var i = 0; i < word.length; i++) {
+                if (word[i] === letter) {
+                    document.getElementById('messages').innerHTML = "Good guess!";
+                    index = i;
+                    dash_list[index] = letter;
+                    dash = dash_list.join(" ");
+                    document.getElementById('dash').innerHTML = dash;
+                }
+            }
+
+            let progress = dash_list.join('');
+
+            if (progress === word) {
+                document.getElementById('over').innerHTML = "You Won!";
+                document.getElementById('word').innerHTML = "The word was " + word;
+				document.getElementById('letter').style.display = 'none';
+                document.getElementById('guess').style.display = 'none';
+            }
+
+            if (index === -1) {
+                document.getElementById('messages').innerHTML = "Oops! That's wrong.";
+                wrong_guesses += letter + ',';
+                document.getElementById('wrong_guesses').innerHTML = 'Wrong Guesses: ' + wrong_guesses;
+                tries++;
+
+                switch (tries) {
+                    case 1:
+                        img.src = "images/hngman2.jpg";
+                        break;
+                    case 2:
+                        img.src = "images/hngman3.jpg";
+                        break;
+                    case 3:
+                        img.src = "images/hngman4.jpg";
+                        break;
+                    case 4:
+                        img.src = "images/hngman5.jpg";
+                        break;
+                    case 5:
+                        img.src = "images/hngman6.jpg";
+                        break;
+                    case 6:
+                        img.src = "images/hngman7.jpg";
+                        document.getElementById('over').innerHTML = "You Lost!";
+                        document.getElementById('word').innerHTML = "The word was " + word;
+						document.getElementById('letter').style.display = 'none';
+                        document.getElementById('guess').style.display = 'none';
+                        break;
+                    default:
+                        console.log('Something unexpected happened');
+                }
+            }
+			document.getElementById("letter").value = "";
+        }
+
+        document.body.addEventListener("keyup", function(event) {
+            if (event.key === "Enter") {
+                document.getElementById("guess").click();
+            }
+        });
+    </script>
+</body>
+
+</html>
