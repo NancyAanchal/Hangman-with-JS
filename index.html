@@ -2,6 +2,8 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hangman</title>
 
     <style>
@@ -83,7 +85,8 @@
 <body>
     <div class='container'>
         <h1 id="title">Let's play Hangman</h1>
-        <h5>You have 6 tries to guess the word. Good luck!</h5>
+        <p>You have 6 tries to guess the word. Good luck!<br>[Hint: The word is related to 'programming']</p>
+
         <h2 id='dash'></h2>
         <h1 id="over"></h1>
         <h3 id="word"></h3>
@@ -107,13 +110,120 @@
         let used_letters = "";
         
         const words = [
-            "javascript", "hangman", "developer", "coding", "programming",
-            "algorithm", "variable", "function", "array", "object", "boolean",
-            "integer", "string", "conditional", "debugging", "iteration",
-            "syntax", "framework", "library", "asynchronous", "callback",
-            "parameter", "argument", "interface", "module", "package",
-            "repository", "version"
-        ];
+    "javascript",
+    "hangman",
+    "developer",
+    "programming",
+    "computer",
+    "algorithm",
+    "website",
+    "application",
+    "coding",
+    "function",
+    "variable",
+    "array",
+    "object",
+    "boolean",
+    "string",
+    "integer",
+    "float",
+    "loop",
+    "conditional",
+    "debugging",
+    "syntax",
+    "backend",
+    "frontend",
+    "database",
+    "node",
+    "react",
+    "angular",
+    "vue",
+    "typescript",
+    "html",
+    "css",
+    "bootstrap",
+    "jquery",
+    "ajax",
+    "api",
+    "json",
+    "promise",
+    "async",
+    "await",
+    "constructor",
+    "class",
+    "method",
+    "parameter",
+    "argument",
+    "event",
+    "listener",
+    "callback",
+    "closure",
+    "scope",
+    "variable",
+    "let",
+    "const",
+    "template",
+    "literal",
+    "spread",
+    "rest",
+    "destructuring",
+    "operator",
+    "comparison",
+    "ternary",
+    "loop",
+    "while",
+    "for",
+    "foreach",
+    "map",
+    "filter",
+    "reduce",
+    "slice",
+    "splice",
+    "push",
+    "pop",
+    "shift",
+    "unshift",
+    "sort",
+    "reverse",
+    "indexOf",
+    "includes",
+    "find",
+    "findIndex",
+    "some",
+    "every",
+    "concat",
+    "join",
+    "split",
+    "replace",
+    "regex",
+    "match",
+    "test",
+    "exec",
+    "date",
+    "object",
+    "array",
+    "function",
+    "boolean",
+    "string",
+    "number",
+    "null",
+    "undefined",
+    "NaN",
+    "infinity",
+    "typeof",
+    "instanceof",
+    "prototype",
+    "constructor",
+    "this",
+    "new",
+    "module",
+    "export",
+    "import",
+    "require",
+    "module.exports",
+    "exports"
+];
+
 
         var word = words[Math.floor(Math.random() * words.length)];
         let dash = '_ '.repeat(word.length);
@@ -121,7 +231,8 @@
 
         function guess() {
             var img = document.getElementById('hngman');
-            let letter = document.getElementById('letter').value;
+            let capletter = document.getElementById('letter').value;
+	    let letter = capletter.toLowerCase();
             
             if (used_letters.indexOf(letter)!==-1){
                 document.getElementById('messages').innerHTML = "'"+letter+"'"+" has already been guessed. Try a different letter.";
